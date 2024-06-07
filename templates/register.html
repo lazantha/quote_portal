@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="container w-50 mt-5 shadow p-3 mb-5 bg-body rounded">
+    <h3>Register</h3>
+    <form action="{{url_for('register')}}" method="post" class="mt-5">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{form.user_name(class_='form-control',placeholder='User Name')}}
+        </div>
+        
+        <div class="mb-3">
+            {{form.email(class_='form-control',placeholder='Email Address')}}
+        </div>
+    
+        <div class="mb-3">
+            {{form.password(class_='form-control',placeholder='Password')}}
+        </div>
+        <div class="mb-3">
+            {{form.con_password(class_='form-control',placeholder='Confirm Password')}}
+        </div>
+        {{form.submit(class_='btn btn-primary')}}
+        <a href="{{url_for('login')}}">Have An Account !</a>
+    </form>
+</div>
+
+{% endblock %}
+
