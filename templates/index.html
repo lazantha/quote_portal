@@ -1,8 +1,57 @@
 {% extends 'base.html' %}
 
-{% block title %}Log In{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
     
+<div class="welcome-section mt-5 pt-5">
+    <div class="container text-center ">
+        <h1>Welcome to Story Corner!</h1>
+        <p>Explore, read, and share your favorite stories. Dive into a world of love, romance, horror, and adventure. Join our community and start your storytelling journey today!</p>
+        <a href="#" class="btn btn-outline-secondary">Get Started</a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mt-5 pt-4">
+    <div class="row">
+        <!-- Story Card 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="story1.jpg" class="card-img-top" alt="Story Image">
+                <div class="card-body">
+                    <h5 class="card-title">Story Title 1</h5>
+                    <p class="card-text">Brief description of the story...</p>
+                    <a href="#" class="btn btn-outline-secondary">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Card 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="story2.jpg" class="card-img-top" alt="Story Image">
+                <div class="card-body">
+                    <h5 class="card-title">Story Title 2</h5>
+                    <p class="card-text">Brief description of the story...</p>
+                    <a href="#" class="btn btn-outline-secondary">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Card 3 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="story3.jpg" class="card-img-top" alt="Story Image">
+                <div class="card-body">
+                    <h5 class="card-title">Story Title 3</h5>
+                    <p class="card-text">Brief description of the story...</p>
+                    <a href="#" class="btn btn-outline-secondary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

@@ -1,21 +1,23 @@
-from main import db
+from flask_sqlalchemy import SQLAlchemy
+# model upgrade and make changes
+# export FLASK_APP=app.py
+# flask db init
+# flask db migrate -m'messege'
+# flask db upgrade
 
-class users(db.Model):
+db = SQLAlchemy()
+
+class User(db.Model):
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password=db.Column(db.String(80), nullable=False)
-    dp=db.Column(db.FileField(), nullable=True)
-    
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-class posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    title = db.Column(db.String(80), unique=True, nullable=False)
-    content = db.Column(db.Text(), unique=True, nullable=False)
-    image=db.Column(db.FileField(), nullable=True)
+    password = db.Column(db.String(80), nullable=False)
+    dp = db.Column(db.String(200), nullable=True)
+    is_deleted = db.Column(db.Boolean(), nullable=False, default=False)
+    updated_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
 
     def __repr__(self):
-        return '<Post %r>' % self.title
+        return f'<User {self.username}>'

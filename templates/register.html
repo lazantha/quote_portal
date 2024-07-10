@@ -22,6 +22,10 @@
         <div class="mb-3">
             {{form.con_password(class_='form-control',placeholder='Confirm Password')}}
         </div>
+        <div class="mb-3">
+            {{form.dp(class_='form-control',placeholder='Profile')}}
+        </div>
+        
         {{form.submit(class_='btn btn-primary')}}
         <a href="{{url_for('login')}}">Have An Account !</a>
     </form>
