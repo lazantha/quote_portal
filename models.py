@@ -19,5 +19,26 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
 
+    stories = db.relationship('Story', backref='author', lazy=True)
+
     def __repr__(self):
         return f'<User {self.username}>'
+    
+
+
+class Story(db.Model):
+    __tablename__ = 'stories'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    is_deleted = db.Column(db.Boolean(), nullable=False, default=False)
+    updated_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+
+    def __repr__(self):
+        return f'<Story {self.title}>'
+
+    
+
