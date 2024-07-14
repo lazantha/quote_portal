@@ -2,6 +2,8 @@ from flask import Flask, render_template, flash, redirect, url_for,session
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from models import db,User,Story
+from forms import UserLoginForm, UserRegisterForm,StoryForm
+
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError 
 app = Flask(__name__)
@@ -17,15 +19,15 @@ csrf = CSRFProtect(app)
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('error.html', error='Page not found'), 404
+    return render_template('errors/error.html', error='Page not found'), 404
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return render_template('error.html', error='Internal Server Error'), 500
+    return render_template('errors/error.html', error='Internal Server Error'), 500
 
 @app.errorhandler(Exception)
 def handle_exception(error):
-    return render_template('error.html', error=str(error)), 500
+    return render_template('errors/error.html', error=str(error)), 500
 
 
 @app.route('/logout')
@@ -50,12 +52,12 @@ def about():
     return render_template('about.html')
 
 # Import forms after app initialization to avoid circular import
-from forms import UserLoginForm, UserRegisterForm
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'email' not in session and 'username' not in session:
         form = UserLoginForm()
+        
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user and user.password == form.password.data:
@@ -108,11 +110,14 @@ def register():
 @app.route('/acc-home', methods=['GET', 'POST'])
 def acc_home():
     if 'email' in session and 'username' in session:
-        stories = Story.query.all()
-        return render_template('aac_home.html', stories=stories)
+        form=StoryForm()
+        stories = Story.query.all() 
+        print("Debug: Stories fetched:", stories)  
+        return render_template('aac_home.html', stories=stories,form=form)
     else:
         flash('Please Log In', 'error')
         return redirect(url_for('login'))
+
 
     
 @app.route('/write-story',methods=['GET','POST'])
@@ -124,25 +129,52 @@ def write_story():
     
 
 
+
 @app.route('/submit-story', methods=['POST'])
 def submit_story():
-    if 'email' in session and 'name' in session:
-        form=new_story()
-        title = form.title.data
-        category = form.category.data
-        content = form.content.data
-        user_id = 1  # Replace with actual user ID retrieval logic
-
-        new_story = Story(title=title, category=category, content=content, user_id=user_id)
-        db.session.add(new_story)
-        db.session.commit()
-        flash(f'{title} Published Succssfully !','success')
-        return redirect(url_for('acc_home'))
+    if 'email' in session and 'username' in session:
+        form = StoryForm()
+        if form.validate_on_submit():
+            title = form.title.data
+            category = form.category.data
+            content = form.content.data
+            
+            user = User.query.filter_by(email=session['email'], username=session['username']).first()
+            
+            if user:
+                new_story = Story(title=title, category=category, content=content, user_id=user.id)
+                db.session.add(new_story)
+                db.session.commit()
+                flash(f'{title} Published Successfully!', 'success')
+                return redirect(url_for('acc_home'))
+            else:
+                flash('User not found. Please log in again.', 'error')
+                return redirect(url_for('login'))
+        else:
+            flash('Form validation failed. Please check your inputs.', 'error')
+            return redirect(url_for('acc_home'))
     else:
-        flash('Please Login In !','error')
+        flash('Please log in to submit a story.', 'error')
         return redirect(url_for('login'))
 
+@app.route('/love', methods=['POST'])
+def love():
+    return render_template('categories/love.html')
 
+
+@app.route('/romantic', methods=['POST'])
+def romantic():
+    return render_template('categories/romantic.html')
+
+@app.route('/horror', methods=['POST'])
+def horror():
+
+    return render_template('categories/horror.html')
+
+@app.route('/adventure', methods=['POST'])
+def adventure():
+
+    return render_template('categories/adventure.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

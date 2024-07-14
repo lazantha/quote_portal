@@ -3,170 +3,57 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    
-    <div class="container mt-5 pt-4">
-        <a href="{{url_for('logout')}}">Log out</a>
-        <h2>Welcome, [Username]!</h2>
-        <hr>
+<a href="{{ url_for('logout') }} " style="margin-top: 3em; margin-left: 2em; position: absolute;">Log out</a>
 
-        <div class="row">
-            <!-- Categories Section -->
-            <div class="col-md-8">
-                <!-- Love Stories Category -->
-                <h3>Love Stories</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story1.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 1</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story2.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 2</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
+<div class="container text-center mt-5 pt-5">
+    <div class="row">
+      <div class="col-8">
+        <h2>Welcome, {{ session['username'] }}!</h2>
+        {% for story in stories %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{ story.title }}</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">{{ story.category }}</h6>
+                  <p class="card-text">{{ story.content[:30] }}...</p>
+                  <a href="#" class="card-link">Edit</a>
+                  <a href="#" class="card-link">Delete</a>
                 </div>
+              </div>            
+        {% endfor %}
+        
+      </div>
 
-                <!-- Romantic Stories Category -->
-                <h3>Romantic Stories</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story3.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 3</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story4.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 4</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="col-4">
 
-                <!-- Horror Stories Category -->
-                <h3>Horror Stories</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story5.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 5</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story6.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 6</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <h3>Write New Story</h3>
+        <form method="POST" action="{{ url_for('submit_story') }}"  enctype="multipart/form-data" class="w-auto p-3 shadow position-fixed">
 
-                <!-- Adventure Stories Category -->
-                <h3>Adventure Stories</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story7.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 7</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card mb-3">
-                            <img src="story8.jpg" class="card-img-top" alt="Story Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Story Title 8</h5>
-                                <p class="card-text">Brief description of the story...</p>
-                                <a href="#" class="">Read More</a><br>
-                                <a href="#" class="">Edit</a><br>
-                                <a href="#" class="">Delete</a>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.title }}
             </div>
-
-            <!-- New Story Section -->
-            <div class="col-md-4">
-                <div class="position-fixed">
-                    <h3>Write New Story</h3>
-                    <form>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="storyTitle" placeholder="Enter story title">
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" id="storyCategory">
-                                <option>Love Stories</option>
-                                <option>Romantic</option>
-                                <option>Horror</option>
-                                <option>Adventure</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" id="storyContent" rows="5" placeholder="Write your story here..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="storyImages">Upload Images</label>
-                            <input type="file" class="form-control-file" id="storyImages" multiple>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                    
-                </div>
+            <div class="form-group">
+                {{ form.category }}
             </div>
-        </div>
+            <div class="form-group">
+                {{ form.content }}
+            </div>
+            <div class="form-group">
+                {{ form.images }}
+            </div>
+            <div class="form-group">
+                {{ form.submit }}
+            </div>            
+        </form>
+
+      </div>
+      
     </div>
+  </div>
 
 
+
+
+
+    
 {% endblock %}
