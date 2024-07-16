@@ -110,10 +110,9 @@ def register():
 @app.route('/acc-home', methods=['GET', 'POST'])
 def acc_home():
     if 'email' in session and 'username' in session:
-        form=StoryForm()
         stories = Story.query.all() 
         print("Debug: Stories fetched:", stories)  
-        return render_template('aac_home.html', stories=stories,form=form)
+        return render_template('user_account/aac_home.html', stories=stories)
     else:
         flash('Please Log In', 'error')
         return redirect(url_for('login'))
@@ -123,7 +122,10 @@ def acc_home():
 @app.route('/write-story',methods=['GET','POST'])
 def write_story():
     if 'email' in session and 'username' in session:
-        return redirect(url_for('acc_home'))
+        form=StoryForm()
+        
+        return render_template('user_account/write_story.html',form=form)
+
     else:
         return redirect(url_for('login'))
     
