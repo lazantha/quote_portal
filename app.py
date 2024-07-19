@@ -40,8 +40,8 @@ def logout():
 
 @app.route('/')
 def index():
-
-    return render_template('index.html')
+    stories = Story.query.all() 
+    return render_template('index.html',stories=stories)
 
 @app.route('/contact')
 def contact():
@@ -110,8 +110,8 @@ def register():
 @app.route('/acc-home', methods=['GET', 'POST'])
 def acc_home():
     if 'email' in session and 'username' in session:
-        stories = Story.query.all() 
-        print("Debug: Stories fetched:", stories)  
+        user = User.query.filter_by(email=session['email'], username=session['username']).first()
+        stories = Story.query.filter_by(user_id=user.id).all()
         return render_template('user_account/aac_home.html', stories=stories)
     else:
         flash('Please Log In', 'error')

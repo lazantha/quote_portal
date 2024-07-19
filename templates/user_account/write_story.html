@@ -5,7 +5,8 @@
 {% block content %}
 
 <div class="container w-50 mt-5 pt-5">
-    <h3>Write New Story</h3>
+    <h3>Share Your Amazing Story!</h3>
+    <p class="lead">Every story has a magic of its own. Fill in the details below to start sharing yours.</p>
         <form method="POST" action="{{ url_for('submit_story') }}"  enctype="multipart/form-data" class="mt-5">
 
             {{ form.hidden_tag() }}
@@ -27,6 +28,12 @@
                 {{ form.submit }}
             </div>            
         </form>
+        <div class="mt-5">
+            <h5>Need Inspiration?</h5>
+            <p>Take a look at some of the amazing stories shared by our community! <a href="{{ url_for('acc_home') }}" class="text-secondary">Explore Stories</a>
+            </p>
+            
+        </div>
 
       </div>
 </div>

@@ -3,29 +3,40 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<a href="{{ url_for('logout') }}" class="btn btn-outline-secondary" style="margin-top: 3em; margin-left: 2em; position: absolute;"> Log Out</a>
-        
 
-<div class="container text-center mt-5 pt-5">
-        <h2>Welcome, {{ session['username'] }} To Your Sory Corner!  </h2>
-        <a href="{{ url_for('write_story') }}" class="btn btn-outline-secondary"> Click Here To Write New Story !</a>
 
-        {% for story in stories %}
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">{{ story.title }}</h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">{{ story.category }}</h6>
-                  <p class="card-text">{{ story.content[:30] }}...</p>
-                  <a href="#" class="card-link">Edit</a>
-                  <a href="#" class="card-link">Delete</a>
-                </div>
-              </div>            
-        {% endfor %}
+
+<div class="container mt-5 pt-4">
+<a href="{{url_for('logout')}}" class="btn btn-outline-secondary">Lout out</a>
+<h2>Welcome, {{ session['username'] }}!</h2>
+<p class="lead">
+  We're glad to have you back! Dive into our collection of stories and explore the latest love stories, romantic tales, horror adventures, and more. Feel free to share your own stories and connect with our community of writers and readers.
+  <a href="{{url_for('write_story')}}" class="text-success">Write your own story</a>
+</p>
+<div class="d-flex flex-row">
+{%for story in stories%}
+  <div class="p-2">
+    <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{story.title}}</h5>
+    <h6 class="card-text">{{story.category}}.</h6>
+    <p class="card-text">{{story.content[:150]}}.</p>
+
+    <a href="" class="text-secondary">Edit</a><br>
+    <a href="" class="text-danger">Delete</a><br>
+    <a href="" class="text-info">Read</a><br>
+
+
   </div>
+</div>
+
+  </div>
+{% endfor %}
+
+</div>
 
 
 
 
 
-    
-{% endblock %}
+{% endblock%}
