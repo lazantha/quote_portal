@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Horror Stories{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 pt-4">
+    <h2>Delve into Terrifying Horror Tales!</h2>
+<p>Welcome to the Horror section of Story Corner. Here, you'll find spine-chilling tales that will send shivers down your spine. From ghostly encounters to eerie mysteries, our collection of horror stories will immerse you in a world of fear and suspense. Prepare to be ha
+<hr>
+<div class="d-flex  justify-content-around flex-row ">
+  {% for story in stories %}
+
+      <div class="card w-25 ">
+          <div class="card-body">
+          <h5 class="card-title">{{story.title}}</h5>
+          <p class="card-text">{{story.content[:150]}}.</p>
+          <a href="" class="text-secondary">Read more..</a>
+          </div>
+      </div>
+      {% endfor %}
+</div>
+    
+  
+        
+    
+</div>
+{% endblock %}

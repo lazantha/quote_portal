@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}story.title{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 pt-4">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">{{ story.title }}</h1>
+        <h6 class="card-subtitle mb-2 text-muted">{{ story.category }}</h6>
+        <p class="card-text">{{ story.content }}</p>
+        <!-- Add navigation buttons if needed -->
+        <a href="{{request.referrer }}" class="btn btn-outline-secondary">Back</a>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+  <hr>
+  <form>
+    <div class="form-group">
+        <label for="comment">Add a comment:</label>
+        <textarea class="form-control" id="comment" rows="2"></textarea>
+    </div>
+    <input type="submit" value="Post Comment " class="btn btn-outline-primary">
+</form>
+
+</div>
+
+{% endblock %}

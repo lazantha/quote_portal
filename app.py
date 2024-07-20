@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for,session
+from flask import Flask, render_template, flash, redirect, url_for,session,request
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from models import db,User,Story
@@ -159,24 +159,68 @@ def submit_story():
         flash('Please log in to submit a story.', 'error')
         return redirect(url_for('login'))
 
-@app.route('/love', methods=['POST'])
-def love():
-    return render_template('categories/love.html')
 
-
-@app.route('/romantic', methods=['POST'])
+@app.route('/romantic', methods=['GET'])
 def romantic():
-    return render_template('categories/romantic.html')
+    romance_stories = Story.query.filter_by(category='romance').all()
 
-@app.route('/horror', methods=['POST'])
+    return render_template('categories/romance.html',stories=romance_stories)
+
+@app.route('/horror', methods=['GET'])
 def horror():
+    horror_stories = Story.query.filter_by(category='horror').all()
+    return render_template('categories/horror.html',stories=horror_stories)
 
-    return render_template('categories/horror.html')
 
-@app.route('/adventure', methods=['POST'])
+@app.route('/adventure', methods=['GET'])
 def adventure():
+    adventure_stories = Story.query.filter_by(category='adventure').all()
+    
+    return render_template('categories/adventure.html',stories=adventure_stories)
 
-    return render_template('categories/adventure.html')
+
+@app.route('/love',methods=['GET'])
+def love():
+    love_stories = Story.query.filter_by(category='love').all()
+    
+    return render_template('categories/love.html',stories=love_stories)
+
+
+@app.route('/story/<int:story_id>', methods=['GET'])
+def view_story(story_id):
+    story = Story.query.get_or_404(story_id)
+    return render_template('user_account/view_story.html', story=story)
+
+
+
+# delete stories
+@app.route('/delete_story/<int:story_id>', methods=['GET'])
+def delete_story(story_id):
+    if 'email' in session and 'username' in session:
+        story = Story.query.get_or_404(story_id)
+        db.session.delete(story)
+        db.session.commit()
+        flash(f'Story "{story.title}" has been deleted successfully!', 'success')
+        return redirect(request.referrer or url_for('acc_home'))
+    else:
+        flash('Please Log In!', 'error')
+        return redirect(url_for('login'))
+    
+
+# implement
+
+@app.route('/edit_story/<int:story_id>', methods=['GET'])
+def edit_story(story_id):
+    if 'email' in session and 'username' in session:
+        story = Story.query.get_or_404(story_id)
+        form = StoryForm(obj=story)
+        return render_template('user_account/edit_story.html', form=form, story=story)
+    else:
+        flash('Please Log In!', 'error')
+        return redirect(url_for('login'))
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

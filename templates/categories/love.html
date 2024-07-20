@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Love Stories{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 pt-4">
+    <h2>Experience the Magic of Love Stories!</h2>
+    <p>Welcome to the Love Stories section of Story Corner. Immerse yourself in tales of romance and affection. Each story in this collection is crafted to touch your heart and bring a smile to your face. Enjoy the journey through these beautiful love stories!</p>
+    
+    <hr>
+    <br>
+    
+    <div class="d-flex  justify-content-around flex-row ">
+        {% for story in stories %}
+    
+            <div class="card w-25 ">
+                <div class="card-body">
+                <h5 class="card-title">{{story.title}}</h5>
+                <p class="card-text">{{story.content[:150]}}.</p>
+                <a href="{{url_for('view_story', story_id=story.id)}}" class="text-secondary">Read more..</a>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
+
+
