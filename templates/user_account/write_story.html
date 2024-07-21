@@ -26,11 +26,13 @@
             </div>
             <div class="form-group">
                 {{ form.submit }}
+                <input type="reset" value="Clear" class="btn btn-secondary">
+                <a href="{{ request.referrer }}" class="btn btn-warning">Cancel</a>
             </div>            
         </form>
         <div class="mt-5">
             <h5>Need Inspiration?</h5>
-            <p>Take a look at some of the amazing stories shared by our community! <a href="{{ url_for('acc_home') }}" class="text-secondary">Explore Stories</a>
+            <p>Take a look at some of the amazing stories shared by our community! <a href="{{ url_for('index') }}" class="text-secondary">Explore Stories</a>
             </p>
             
         </div>

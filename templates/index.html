@@ -8,7 +8,7 @@
     <div class="container text-center ">
         <h1>Welcome to Story Corner!</h1>
         <p>Explore, read, and share your favorite stories. Dive into a world of love, romance, horror, and adventure. Join our community and start your storytelling journey today!</p>
-        <a href="#" class="btn btn-outline-secondary">Get Started</a>
+        <a href="{{url_for('login')}}" class="btn btn-outline-secondary">Get Started</a>
     </div>
 </div>
 
@@ -23,6 +23,7 @@
             <h6 class="card-text">{{story.category}}.</h6>
             <p class="card-text">{{story.content[:150]}}.</p>
             <a href="{{url_for('view_story', story_id=story.id)}}" class="text-dark">Read more..</a><br>        
+            <p class="text-secondary">Wrote on: {{story.created_at}}</p>
           </div>
         </div>
         

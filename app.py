@@ -35,12 +35,13 @@ def logout():
     session.pop('user_id', None)
     session.pop('username', None)
     session.pop('email', None)
+    print("session cleared")
+    return redirect(url_for('index'))
 
-    return render_template('index.html')
 
 @app.route('/')
 def index():
-    stories = Story.query.all() 
+    stories = Story.query.order_by(Story.created_at.asc()).all()
     return render_template('index.html',stories=stories)
 
 @app.route('/contact')
@@ -111,7 +112,7 @@ def register():
 def acc_home():
     if 'email' in session and 'username' in session:
         user = User.query.filter_by(email=session['email'], username=session['username']).first()
-        stories = Story.query.filter_by(user_id=user.id).all()
+        stories = Story.query.filter_by(user_id=user.id).order_by(Story.created_at.asc()).all()
         return render_template('user_account/aac_home.html', stories=stories)
     else:
         flash('Please Log In', 'error')
@@ -162,26 +163,26 @@ def submit_story():
 
 @app.route('/romantic', methods=['GET'])
 def romantic():
-    romance_stories = Story.query.filter_by(category='romance').all()
+    romance_stories = Story.query.filter_by(category='romance').order_by(Story.created_at.asc()).all()
 
     return render_template('categories/romance.html',stories=romance_stories)
 
 @app.route('/horror', methods=['GET'])
 def horror():
-    horror_stories = Story.query.filter_by(category='horror').all()
+    horror_stories = Story.query.filter_by(category='horror').order_by(Story.created_at.asc()).all()
     return render_template('categories/horror.html',stories=horror_stories)
 
 
 @app.route('/adventure', methods=['GET'])
 def adventure():
-    adventure_stories = Story.query.filter_by(category='adventure').all()
+    adventure_stories = Story.query.filter_by(category='adventure').order_by(Story.created_at.asc()).all()
     
     return render_template('categories/adventure.html',stories=adventure_stories)
 
 
 @app.route('/love',methods=['GET'])
 def love():
-    love_stories = Story.query.filter_by(category='love').all()
+    love_stories = Story.query.filter_by(category='love').order_by(Story.created_at.asc()).all()
     
     return render_template('categories/love.html',stories=love_stories)
 
