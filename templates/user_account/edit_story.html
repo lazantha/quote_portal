@@ -4,6 +4,24 @@
 
 {% block content %}
 <div class="container mt-5 pt-4">
-    edit form
+    <form action="{{url_for('update_story', story_id=story.id)}}" method="POST" class="shadow">
+        {{form.hidden_tag()}}
+        <h3>Edit Story</h3>
+        <br>
+        <div class="form-group">
+            {{form.title}}
+        </div>
+        <div class="form-group">
+            {{ form.category }}
+        </div>
+        <div class="form-group">
+            {{form.content}}
+        </div>
+        <br>
+        <div class="form-group">
+            {{form.submit(class_="btn btn-secondary",value="Update") }}
+        </div>
+        
+    </form>
 </div>
 {% endblock %}

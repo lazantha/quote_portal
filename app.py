@@ -219,6 +219,22 @@ def edit_story(story_id):
         flash('Please Log In!', 'error')
         return redirect(url_for('login'))
 
+@app.route('/update_story/<int:story_id>', methods=['POST'])
+def update_story(story_id):
+    if 'email' in session and 'username' in session:
+        story = Story.query.get_or_404(story_id)
+        form = StoryForm()
+        if form.validate_on_submit():
+            story.title = form.title.data
+            story.category = form.category.data
+            story.content = form.content.data
+            db.session.commit()
+            flash(f'Story "{story.title}" has been updated successfully!', 'success')
+            return redirect(url_for('acc_home'))
+        return render_template('edit_story.html', form=form, story=story)
+    else:
+        flash('Please Log In!', 'error')
+        return redirect(url_for('login'))
 
 
 
