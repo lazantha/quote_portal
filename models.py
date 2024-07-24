@@ -42,3 +42,15 @@ class Story(db.Model):
 
     
 
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id=db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
+    is_deleted = db.Column(db.Boolean(), nullable=False, default=False)
+    updated_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+
+    def __repr__(self):
+        return f'<Comment {self.content}>'
