@@ -1,9 +1,8 @@
 from flask import Flask, render_template, flash, redirect, url_for,session,request
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
-from models import db,User,Story
-from forms import UserLoginForm, UserRegisterForm,StoryForm
-
+from models import db,User,Story,Comment
+from forms import UserLoginForm, UserRegisterForm,StoryForm,CommentForm
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError 
 app = Flask(__name__)
@@ -190,8 +189,10 @@ def love():
 @app.route('/story/<int:story_id>', methods=['GET'])
 def view_story(story_id):
     story = Story.query.get_or_404(story_id)
-    return render_template('user_account/view_story.html', story=story)
-
+    print("Story:", story)
+    form = CommentForm()
+    comments = Comment.query.filter_by(story_id=story_id).order_by(Comment.created_at.asc()).all()        
+    return render_template('user_account/view_story.html', story=story, form=form, comments=comments)
 
 
 # delete stories
@@ -237,6 +238,52 @@ def update_story(story_id):
         flash('Please Log In!', 'error')
         return redirect(url_for('login'))
 
+
+@app.route('/comment/<int:story_id>', methods=['POST'])
+def comment(story_id):
+    print("comment method loaded")
+    
+    if 'email' in session and 'username' in session:
+        form = CommentForm()
+        print("ready to render form")
+        
+        if form.validate_on_submit():
+            comment_content = form.comment.data
+            print("comment loaded:", comment_content)
+            
+            user = User.query.filter_by(email=session['email'], username=session['username']).first()
+            
+            if user:
+                print("user loaded", user.id)
+                
+                new_comment = Comment(content=comment_content, user_id=user.id, story_id=story_id)
+                db.session.add(new_comment)
+                print("comment added to the database")
+                
+                try:
+                    db.session.commit()
+                    print("database committed")
+                    flash('Comment added successfully', 'success')
+                    return redirect(url_for('view_story', story_id=story_id))
+                except Exception as e:
+                    print("database commit failed:", e)
+                    db.session.rollback()
+                    flash('Database error. Please try again.', 'error')
+                    return redirect(url_for('view_story', story_id=story_id))
+                
+                return redirect(url_for('view_story', story_id=story_id))
+            else:
+                print("user not found")
+                flash('User not found. Please log in again.', 'error')
+                return redirect(url_for('login'))
+        else:
+            print("form validation failed")
+            flash('Form validation failed. Please check your inputs.', 'error')
+            return redirect(url_for('view_story', story_id=story_id))
+    else:
+        print("user not logged in")
+        flash('Please Log In!', 'error')
+        return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

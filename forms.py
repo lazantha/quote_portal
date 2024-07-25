@@ -25,4 +25,6 @@ class StoryForm(FlaskForm):
 
 
 
-
+class CommentForm(FlaskForm):
+    comment = TextAreaField('Comment', validators=[DataRequired()],render_kw={"class": "form-control", "placeholder": "Type here ...","rows": 5})        
+    submit = SubmitField('Comment', render_kw={"class": "btn btn-secondary"})
